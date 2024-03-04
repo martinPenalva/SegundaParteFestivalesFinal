@@ -38,7 +38,6 @@ public class AgendaFestivales {
      *
      */
     public void addFestival(Festival festival) {
-        //TODO
         ArrayList<Festival> fes = new ArrayList<>();
         Mes m = festival.getMes();
         if (!this.agenda.containsKey(festival.getMes()))
@@ -48,7 +47,24 @@ public class AgendaFestivales {
         }
         else
         {
-            agenda.get(m).add(obtenerPosicionDeInsercion(f, festival), festival);
+            agenda.get(m).add(obtenerPosicionDeInsercion(fes, festival), festival);
         }
+
+    }
+    /**
+     *
+     * @param festivales una lista de festivales
+     * @param festival
+     * @return la posición en la que debería ir el nuevo festival
+     * de forma que la lista quedase ordenada por nombre
+     */
+    private int obtenerPosicionDeInsercion(ArrayList<Festival> festivales, Festival festival) {
+        int anadir = 0;
+        for (Festival festivaless : festivales) {
+            if (festivaless.getNombre().compareTo(festival.getNombre()) > 0) {
+                anadir++;
+            }
+        }
+        return anadir;
 
     }
