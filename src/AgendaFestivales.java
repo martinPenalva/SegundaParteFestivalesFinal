@@ -98,3 +98,45 @@ public class AgendaFestivales {
             return agenda.get(mes).size();
         }
     }
+    /**
+     * Se trata de agrupar todos los festivales de la agenda
+     * por estilo.
+     * Cada estilo que aparece en la agenda tiene asociada una colección
+     * que es el conjunto de nombres de festivales que pertenecen a ese estilo
+     * Importa el orden de los nombres en el conjunto
+     *
+     * Identifica el tipo exacto del valor de retorno
+     */
+    public  TreeMap<Estilo,TreeSet<String>>   festivalesPorEstilo() {
+        //Hay que arreglar
+        TreeMap<Estilo,TreeSet<String>> agrupar = new TreeMap<>();
+        ArrayList<Festival> miFestival = new ArrayList<>();
+        HashSet<Estilo> miEstilo = new HashSet<>();
+        Iterator<Mes> borr = agenda.keySet().iterator();
+        while (borr.hasNext())
+        {
+            for (int i = 0;i<agenda.get(borr.next()).size();i++)
+            {
+                Festival z = agenda.get(borr.next()).getFirst();//
+                miFestival.add(z);
+                miEstilo.addAll(agenda.get(borr.next()).getFirst().getEstilos());
+            }
+
+                for (int pos = 0;pos<miFestival.size();pos++) {
+                   for (int x = 0;x<miFestival.get(pos).getEstilos().size();x++) {
+                      Iterator<Estilo> det = miEstilo.iterator();
+                        while (det.hasNext()) {
+                        Estilo estiloActual = det.next();
+                        if (miFestival.get(pos).getEstilos().contains(estiloActual) && agrupar.containsKey(estiloActual)) {
+                            agrupar.get(estiloActual).add(miFestival.get(pos).getNombre());
+                        } else if (!agrupar.containsKey(estiloActual) && miFestival.get(pos).getEstilos().contains(estiloActual)) {
+                            TreeSet<String> anadir = new TreeSet<>();
+                            anadir.add(miFestival.get(pos).getNombre());
+                            agrupar.put(estiloActual, anadir);
+                        }
+                    }
+                }
+            }
+        }
+        return agrupar;
+    }
