@@ -140,3 +140,43 @@ public class AgendaFestivales {
         }
         return agrupar;
     }
+    /**
+     * Se cancelan todos los festivales organizados en alguno de los
+     * lugares que indica el conjunto en el mes indicado. Los festivales
+     * concluidos o que no empezados no se tienen en cuenta
+     * Hay que borrarlos de la agenda
+     * Si el mes no existe se devuelve -1
+     *
+     * Si al borrar de un mes los festivales el mes queda con 0 festivales
+     * se borra la entrada completa del map
+     */
+    public int cancelarFestivales(HashSet<String> lugares, Mes mes) {
+        //hay que mirarlo
+        int luga = 0;
+        if (!agenda.containsKey(mes))
+        {
+            return -1;
+        }
+        else
+        {
+            for (int pos1 = 0; pos1 < agenda.get(mes).size(); pos1++) {
+                       String lugarActual = agenda.get(mes).get(pos1).getLugar();
+
+                Iterator<String> lug = lugares.iterator();
+                while (lug.hasNext()) {
+                    String lugar = lug.next();
+                    if (Objects.equals(lugarActual, lugar)) {
+                        luga++;
+                        lug.remove();
+                        agenda.get(mes).remove(pos1);
+                        pos1--;
+                    }
+                }
+            }
+            if (agenda.get(mes).isEmpty()) {
+                agenda.remove(mes);
+            }
+        }
+        return luga;
+    }
+}
