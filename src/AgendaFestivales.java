@@ -68,3 +68,33 @@ public class AgendaFestivales {
         return anadir;
 
     }
+    /**
+     * Representación textual del festival
+     * De forma eficiente
+     *  Usa el conjunto de entradas para recorrer el map
+     */
+    @Override
+    public String toString() {
+        //Problemas
+
+        return null;
+    }
+
+    /**
+     *
+     * @param mes el mes a considerar
+     * @return la cantidad de festivales que hay en ese mes
+     * Si el mes no existe se devuelve -1
+     */
+    public int festivalesEnMes(Mes mes) {
+        //dudas
+
+        if (!agenda.containsKey(mes))
+        {
+            return -1;
+        }
+        else
+        {
+            return agenda.get(mes).size();
+        }
+    }
