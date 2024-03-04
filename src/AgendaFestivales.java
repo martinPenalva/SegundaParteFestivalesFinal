@@ -77,8 +77,20 @@ public class AgendaFestivales {
     public String toString() {
         //Problemas
 
-        return null;
-    }
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<Mes, ArrayList<Festival>> entry : agenda.entrySet()) {
+                Mes mes = entry.getKey();
+                ArrayList<Festival> festivales = entry.getValue();
+                sb.append("Mes: ").append(mes).append("\n");
+                for (Festival festival : festivales) {
+                    sb.append("  ").append(festival).append("\n");
+                }
+            }
+            return sb.toString();
+        }
+
+
+
 
     /**
      *
@@ -107,37 +119,26 @@ public class AgendaFestivales {
      *
      * Identifica el tipo exacto del valor de retorno
      */
+
+
     public  TreeMap<Estilo,TreeSet<String>>   festivalesPorEstilo() {
         //Hay que arreglar
-        TreeMap<Estilo,TreeSet<String>> agrupar = new TreeMap<>();
-        ArrayList<Festival> miFestival = new ArrayList<>();
-        HashSet<Estilo> miEstilo = new HashSet<>();
-        Iterator<Mes> borr = agenda.keySet().iterator();
-        while (borr.hasNext())
-        {
-            for (int i = 0;i<agenda.get(borr.next()).size();i++)
-            {
-                Festival z = agenda.get(borr.next()).getFirst();//
-                miFestival.add(z);
-                miEstilo.addAll(agenda.get(borr.next()).getFirst().getEstilos());
-            }
+        TreeMap<Estilo, TreeSet<String>> agrupar = new TreeMap<>();
 
-                for (int pos = 0;pos<miFestival.size();pos++) {
-                   for (int x = 0;x<miFestival.get(pos).getEstilos().size();x++) {
-                      Iterator<Estilo> det = miEstilo.iterator();
-                        while (det.hasNext()) {
-                        Estilo estiloActual = det.next();
-                        if (miFestival.get(pos).getEstilos().contains(estiloActual) && agrupar.containsKey(estiloActual)) {
-                            agrupar.get(estiloActual).add(miFestival.get(pos).getNombre());
-                        } else if (!agrupar.containsKey(estiloActual) && miFestival.get(pos).getEstilos().contains(estiloActual)) {
-                            TreeSet<String> anadir = new TreeSet<>();
-                            anadir.add(miFestival.get(pos).getNombre());
-                            agrupar.put(estiloActual, anadir);
-                        }
+        for (ArrayList<Festival> festivalesMes : agenda.values()) {
+            for (Festival festival : festivalesMes) {
+                for (Estilo estilo : festival.getEstilos()) {
+                    if (agrupar.containsKey(estilo)) {
+                        agrupar.get(estilo).add(festival.getNombre());
+                    } else {
+                        TreeSet<String> nombresFestivales = new TreeSet<>();
+                        nombresFestivales.add(festival.getNombre());
+                        agrupar.put(estilo, nombresFestivales);
                     }
                 }
             }
         }
+
         return agrupar;
     }
     /**
